@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Message Clustering</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="bootstrap.min.css"/>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        /* Style the header */
+        header {
+            background-color: #666;
+            padding: 10px;
+            text-align: center;
+            font-size: 35px;
+            color: white;
+        }
+
+        /* Create two columns/boxes that floats next to each other */
+        nav {
+            float: left;
+            width: 30%;
+
+            background: #ccc;
+            padding: 20px;
+        }
+
+        /* Style the list inside the menu */
+        nav ul {
+            list-style-type: none;
+        }
+
+        article {
+            float: left;
+            padding: 20px;
+            width: 70%;
+            background-color: #f1f1f1;
+
+        }
+
+        /* Clear floats after the columns */
+        section:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        /* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
+        @media (max-width: 600px) {
+            nav, article {
+                width: 100%;
+                height: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h2>Message Clustering</h2>
+</header>
+
+<section>
+    <nav>
+        <h3>Form:</h3>
+        <form method="post" action="{{ url }}" enctype="multipart/form-data">
+            <b>eps: </b><input type="number" step=0.1 min=0 max=1 id="eps" name="eps" value="0.9"><br><br>
+
+            <b>min_samples: </b><input type="number" step=1 min=1 max=1000 id="min_samples" name="min_samples"
+                                       value="5"><br><br>
+
+            <b>prune_thresh: </b><input type="number" step=0.01 min=0 max=1 id="prune_thresh" name="prune_thresh"
+                                        value="0.07"><br><br>
+            <input type="checkbox" name="noise_deletion" checked>
+            <label for="noise_deletion"><b>noise_deletion</b></label><br><br>
+
+            <label for="messages_file"><b>Please select your json input:</b></label>
+            <input type='file' id="messages_file" name="messages_file" required/><br><br>
+
+            <p><b>Please select your output format:</b></p>
+            <input type="radio" id="xlsx" name="format" value="xlsx" checked>
+            <label for="xlsx">excel</label><br>
+            <input type="radio" id="csv" name="format" value="csv">
+            <label for="csv">csv</label><br>
+            <input type="radio" id="json" name="format" value="json">
+            <label for="json">json</label><br><br>
+            <button type="submit" class="btn btn-primary">Run Clustering</button>
+        </form>
+
+    </nav>
+
+    <article>
+        <h2>Cluster Messages with Graph Modeling</h2>
+        <h3>
+            <span style="font-weight: bold; color:darkcyan;">doctools.app.document_clustering(data, prune_thresh=0.07,noise_deletion=True,eps=0.9,min_samples=5)</span>
+        </h3>&nbsp;
+        <div>
+            <h4 style="font-weight: bold;">Parameters</h4>
+            <ul>
+                <li><span style="font-style: italic; color:Blue;"><b>eps:</span>
+                    &nbsp;float, optional (default=0.9)</b><br/>Epsilon Parameter for DBSCAN Algorithm for Detect Noise
+                    Messages.
+                </li>
+                <li><span style="font-style: italic; color:Blue;"><b>min_samples:</span>
+                    &nbsp;int, optional (default=5)</b><br/>Min Samples Parameter for DBSCAN Algorithm to Detect Noise
+                    Messages.
+                </li>
+                <li><span style="font-style: italic; color:Blue;"><b>prune_thresh:</span>
+                    &nbsp;float, optional (default=0.07)</b><br/>Threshold for similar messages.
+                </li>
+                <li><span style="font-style: italic; color:Blue;"><b>noise_deletion:</span>
+                    &nbsp;bool, optional (default=True)</b><br/>Delete or not noises.
+                </li>
+            </ul>
+        </div>
+        <hr/>
+        <p><span style="font-weight: bold; color:darkcyan;">input:</span>&nbsp; List of Messages</p>
+        <p><span style="font-weight: bold; color:darkcyan;">output:</span>&nbsp;Duration and Clustering Result</p>
+        <hr/>
+        <h3>Example| <a style="text-decoration: underline"
+                        href="../static/samples/Messages.xlsx">Download Sample</a></h3>
+        <h4>input:</h4>
+        <pre>
+    {
+        "messages":[
+            {
+                "id": 1161219259810426881,
+                "text": "این یه مصاحبه با داماد #شمخانی درباره خلاف ویلاهای غیرمجاز لواسانه ک اکثرا هم از نزدیکان مسئولین مالک هستن.\r\nما از ق.ق میپرسیم چرا قضیه فساد کمیسیون ماده۱۰۰ شهرداری ک اتفاقا با حضور نمایندگان دادگستری انجام میشه پیگیری نمیشه؟\r\nچرا بجای حکم تخریب، جریمه میاد؟\r\nمبلغ جریمه ها کجا میره؟"
+            }
+        ]
+    }
+    </pre>
+        <h4>output:</h4>
+        <pre>
+    {
+        "duration": "00:03:25.68466",
+        "messages":[
+            {
+                "id": 1161219259810426881,
+                "text": "این یه مصاحبه با داماد #شمخانی درباره خلاف ویلاهای غیرمجاز لواسانه ک اکثرا هم از نزدیکان مسئولین مالک هستن.\r\nما از ق.ق میپرسیم چرا قضیه فساد کمیسیون ماده۱۰۰ شهرداری ک اتفاقا با حضور نمایندگان دادگستری انجام میشه پیگیری نمیشه؟\r\nچرا بجای حکم تخریب، جریمه میاد؟\r\nمبلغ جریمه ها کجا میره؟",
+                "class": 2
+            }
+        ],
+        "number_of_clusters":10
+    }
+    </pre>
+
+    </article>
+</section>
+
+</body>
+</html>

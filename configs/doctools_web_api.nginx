@@ -1,0 +1,13 @@
+server {
+    listen                  80;
+    server_name             doctools_web_api.datamining.io;
+    charset                 utf-8;
+    client_max_body_size    75M;
+    client_body_timeout     3600s;
+    uwsgi_read_timeout      3600s;
+
+    location / {
+        include     uwsgi_params;
+        uwsgi_pass  unix:/tmp/doctools_web_api.sock;
+    }
+}

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document Tools</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        /* Style the header */
+        header {
+            background-color: #666;
+            padding: 30px;
+            text-align: center;
+            font-size: 35px;
+            color: white;
+        }
+
+        /* Create two columns/boxes that floats next to each other */
+        nav {
+            float: left;
+            width: 30%;
+            height: 700px; /* only for demonstration, should be removed */
+            background: #ccc;
+            padding: 20px;
+        }
+
+        /* Style the list inside the menu */
+        nav ul {
+            list-style-type: none;
+        }
+
+        article {
+            float: left;
+            padding: 20px;
+            width: 70%;
+            background-color: #f1f1f1;
+            height: 700px; /* only for demonstration, should be removed */
+        }
+
+        /* Clear floats after the columns */
+        section:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        /* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
+        @media (max-width: 600px) {
+            nav, article {
+                width: 100%;
+                height: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h2>Document Tools</h2>
+</header>
+
+<section>
+    <nav>
+        <h3>Applications:</h3>
+        <ul>
+            <li><a href="/message-clustering/" style="text-decoration: none">Message Clustering</a></li>
+            <br>
+            <li><a href="/message-classification/" style="text-decoration: none">Message Classification</a></li>
+            <br>
+            <li><a href="/similar-messages/" style="text-decoration: none">Message Similarity</a></li>
+        </ul>
+    </nav>
+
+    <article>
+        <h3>
+            <span style="font-weight: bold; color:darkcyan;">install:</span>&nbsp;
+            pip install http://gitlab.datamining.io/meti/doctools_pkg/-/archive/master/doctools_pkg-master.tar</h3>
+        <h1>Abstract</h1>
+        <p>In this web services we provide document tools. you can choose what you wish to do in left links.</p>
+        <p>Message Clustering, get messages and returnes clusters.</p>
+        <p>Message Similarity, get messages and returnes unique messages by delete similar ones.</p>
+    </article>
+</section>
+
+</body>
+</html>

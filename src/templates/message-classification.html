@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Message Classification</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="bootstrap.min.css"/>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        /* Style the header */
+        header {
+            background-color: #666;
+            padding: 10px;
+            text-align: center;
+            font-size: 35px;
+            color: white;
+        }
+
+        /* Create two columns/boxes that floats next to each other */
+        nav {
+            float: left;
+            width: 30%;
+
+            background: #ccc;
+            padding: 20px;
+        }
+
+        /* Style the list inside the menu */
+        nav ul {
+            list-style-type: none;
+        }
+
+        article {
+            float: left;
+            padding: 20px;
+            width: 70%;
+            background-color: #f1f1f1;
+
+        }
+
+        /* Clear floats after the columns */
+        section:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        /* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
+        @media (max-width: 600px) {
+            nav, article {
+                width: 100%;
+                height: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h2>Message Classification</h2>
+</header>
+
+<section>
+    <nav>
+        <h3>Form:</h3>
+        <form method="post" action="{{ url }}" enctype="multipart/form-data">
+            <label for="method"><b>method:</b></label>
+            <select name="method" id="method">
+                <option value="degree">degree</option>
+                <option value="eig">eig</option>
+                <option value=""></option>
+            </select><br><br>
+
+            <label for="sub_method"><b>sub_method:</b></label>
+            <select name="sub_method" id="sub_method">
+                <option value="degree">degree</option>
+                <option value="eig">eig</option>
+            </select><br><br>
+
+            <label for="label_method"><b>label_method:</b></label>
+            <select name="label_method" id="label_method">
+                <option value="mean">mean</option>
+                <option value="max">max</option>
+                <option value="sum">sum</option>
+            </select><br><br>
+
+            <b>n_head_score: </b><input type="number" step=0.1 min=0 max=1 id="n_head_score" name="n_head_score"
+                                        value="0.5"><br><br>
+
+            <label for="messages_train"><b>Please select your tagged messages file:</b></label>
+            <input type='file' id="messages_train" name="messages_train" required/><br><br>
+
+            <label for="messages_test"><b>Please select your untagged messages file:</b></label>
+            <input type='file' id="messages_test" name="messages_test" required/><br><br>
+
+            <p><b>Please select your output format:</b></p>
+            <input type="radio" id="xlsx" name="format" value="xlsx" checked>
+            <label for="xlsx">excel</label><br>
+            <input type="radio" id="csv" name="format" value="csv">
+            <label for="csv">csv</label><br>
+            <input type="radio" id="json" name="format" value="json">
+            <label for="json">json</label><br><br>
+            <button type="submit" class="btn btn-primary">Run Classification</button>
+        </form>
+
+    </nav>
+
+    <article>
+        <h2>Classify Messages with Graph Modeling</h2>
+        <h3>
+            <span style="font-weight: bold; color:darkcyan;">doctools.app.document_classification(data_train,data_test, method='degree',
+                                              sub_method='degree', label_method='mean',
+                                              n_head_score=0.5)</span>&nbsp;
+        </h3>
+        <div>
+            <h4 style="font-weight: bold;">Parameters</h4>
+            <ul>
+                <li><span style="font-style: italic; color:Blue;"><b>n_head_score:</span>
+                    &nbsp;float, optional (default=0.5)</b><br/>Number of train nodes for labeling untagged nodes.
+                </li>
+            </ul>
+        </div>
+        <hr/>
+        <p><span style="font-weight: bold; color:darkcyan;">input:</span>&nbsp; List of tagged and untagged messages</p>
+        <p><span style="font-weight: bold; color:darkcyan;">output:</span>&nbsp;Duration and labeled messages</p>
+        <hr/>
+        <h3>Example| <a style="text-decoration: underline"
+                        href="../static/samples/classification_samples.rar">Download Sample</a></h3>
+        <h4>input:</h4>
+        <h5>tagged messages:</h5>
+        <pre>
+    {
+        "messages":[
+            {
+                "id": 7,
+                "text": "حاجی زاده گفت ما بزرگترین ابرقدرت جهانیم. حتی مامان بزرگم زد زیر خنده. عمر پروپاگانداتون رو به پایانه.",
+                "tag": 0
+            },
+            {
+                "id": 1457,
+                "text": "انتخابات مقدماتی دموکرات ها من و تا حدی یاد انتخابات ریاست جمهوری 84 میندازه",
+                "tag": 1
+            }
+        ]
+    }
+    </pre>
+        <h5>untagged messages:</h5>
+        <pre>
+    {
+        "messages":[
+            {
+                "id": 24,
+                "text": "من با اطمینان می گویم که اسلام ابرقدرت ها را به خاک مذلت می کشاند. احمقهای_درجه_دو"
+            },
+            {
+                "id": "56",
+                "text": "خلیج_فارس یه خاصیتی که داره وقتی ازش رد میشی باید فارسی حرف بزنی حتی اگر خودتو ابرقدرت جهان فرض کنی 👎افتاد👎 @usadarfarsi"
+            }
+        ]
+    }
+    </pre>
+        <h4>output:</h4>
+        <pre>
+    {
+        "duration": "00:03:25.68466",
+        "messages":[
+            {
+                "label": 1.0,
+                "id": "24",
+                "text": "من با اطمینان می گویم که اسلام ابرقدرت ها را به خاک مذلت می کشاند. احمقهای_درجه_دو"
+            },
+            {
+                "label": 0.0,
+                "id": "56",
+                "text": "خلیج_فارس یه خاصیتی که داره وقتی ازش رد میشی باید فارسی حرف بزنی حتی اگر خودتو ابرقدرت جهان فرض کنی 👎افتاد👎 @usadarfarsi"
+            }
+        ]
+    }
+    </pre>
+
+    </article>
+</section>
+
+</body>
+</html>

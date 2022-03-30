@@ -1,0 +1,9 @@
+https://gitlab.com/metinemo/doctools_pkg/-/archive/master/doctools_pkg-master.tar
+uwsgi
+pandas
+requests
+flask
+openpyxl
+xlsxwriter
+werkzeug
+xlrd

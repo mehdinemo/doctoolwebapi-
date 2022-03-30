@@ -1,0 +1,13 @@
+[Unit]
+Description=doctools_web_api web service
+After=network.target
+
+[Service]
+User=servant
+Group=www-data
+WorkingDirectory=/srv/doctools_web_api
+Environment="PATH=/srv/doctools_web_api/venv/bin"
+ExecStart=/srv/doctools_web_api/venv/bin/uwsgi --ini doctools_web_api.ini
+
+[Install]
+WantedBy=multi-user.target
